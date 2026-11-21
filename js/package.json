@@ -1,6 +1,6 @@
 {
   "name": "@garag0l/turkmen-translit",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Transliterate Turkmen between the legacy Cyrillic and the current official Latin alphabet. Zero dependencies.",
   "type": "module",
   "main": "src/index.js",

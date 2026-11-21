@@ -4,6 +4,19 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/), and this project adheres to
 [Semantic Versioning](https://semver.org/).
 
+## [0.1.1] - 2026-11-21
+
+### Added
+- JavaScript/TypeScript port as the npm package `@garag0l/turkmen-translit`
+  (`js/`): zero-dependency ESM mirroring the Python letter tables exactly, with
+  TypeScript types, a `tr-tm` CLI, and `node --test` coverage.
+- CI matrix for Node 18/20/22 across Linux/macOS/Windows.
+- `integrations/chatgpt-turkmen-gpt.md`: paste-ready config for a Turkmen
+  language-helper GPT.
+
+### Note
+- First release published to PyPI and npm.
+
 ## [0.1.0] - 2026-11-21
 
 Initial release.
