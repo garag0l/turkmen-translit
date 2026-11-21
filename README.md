@@ -47,6 +47,13 @@ pip install turkmen-translit      # for the library
 
 Python 3.9+, no third-party dependencies.
 
+**JavaScript / TypeScript:** the same tables are available as an npm package for
+Node and the browser — see [`js/`](js/README.md):
+
+```bash
+npm install @garag0l/turkmen-translit
+```
+
 ## Command line
 
 ```bash
@@ -100,8 +107,8 @@ a word that converts wrong, open an issue with the word and the expected result.
 
 ## Roadmap
 
-- A JavaScript/TypeScript port sharing these exact tables (so web pages can
-  transliterate client-side).
+- ~~A JavaScript/TypeScript port sharing these exact tables.~~ Shipped — see
+  [`js/`](js/README.md).
 - Optional Е/Э disambiguation heuristics for the reverse direction.
 
 ## Contributing

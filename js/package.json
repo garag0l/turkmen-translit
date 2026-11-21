@@ -1,0 +1,47 @@
+{
+  "name": "@garag0l/turkmen-translit",
+  "version": "0.1.0",
+  "description": "Transliterate Turkmen between the legacy Cyrillic and the current official Latin alphabet. Zero dependencies.",
+  "type": "module",
+  "main": "src/index.js",
+  "types": "src/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./src/index.d.ts",
+      "default": "./src/index.js"
+    }
+  },
+  "bin": {
+    "tr-tm": "bin/tr-tm.js"
+  },
+  "files": [
+    "src",
+    "bin",
+    "README.md"
+  ],
+  "scripts": {
+    "test": "node --test"
+  },
+  "keywords": [
+    "turkmen",
+    "turkmenistan",
+    "transliteration",
+    "cyrillic",
+    "latin",
+    "nlp"
+  ],
+  "author": "Murat Bekgi",
+  "license": "MIT",
+  "homepage": "https://github.com/garag0l/turkmen-translit#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/garag0l/turkmen-translit.git",
+    "directory": "js"
+  },
+  "bugs": {
+    "url": "https://github.com/garag0l/turkmen-translit/issues"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
