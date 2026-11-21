@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "turkmen-translit"
-version = "0.1.0"
+version = "0.1.1"
 description = "Transliterate Turkmen text between the legacy Cyrillic and the current Latin alphabet."
 readme = "README.md"
 requires-python = ">=3.9"
