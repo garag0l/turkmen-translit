@@ -1,0 +1,39 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "turkmen-translit"
+version = "0.1.0"
+description = "Transliterate Turkmen text between the legacy Cyrillic and the current Latin alphabet."
+readme = "README.md"
+requires-python = ">=3.9"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{ name = "Murat Bekgi" }]
+keywords = ["turkmen", "turkmenistan", "transliteration", "cyrillic", "latin", "nlp"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Natural Language :: Turkish",
+    "Programming Language :: Python :: 3",
+    "Topic :: Text Processing :: Linguistic",
+]
+dependencies = []
+
+[project.urls]
+Homepage = "https://github.com/garag0l/turkmen-translit"
+Issues = "https://github.com/garag0l/turkmen-translit/issues"
+
+[project.scripts]
+tr-tm = "turkmen_translit.cli:main"
+
+[project.optional-dependencies]
+dev = ["pytest", "ruff"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/turkmen_translit"]
+
+[tool.ruff]
+line-length = 100
