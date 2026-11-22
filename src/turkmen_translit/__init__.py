@@ -12,4 +12,4 @@ from __future__ import annotations
 from .translit import cyrillic_to_latin, detect_script, latin_to_cyrillic
 
 __all__ = ["__version__", "cyrillic_to_latin", "detect_script", "latin_to_cyrillic"]
-__version__ = "0.1.1"
+__version__ = "0.1.2"
