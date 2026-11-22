@@ -63,10 +63,15 @@ jobs:
       - uses: pypa/gh-action-pypi-publish@7245906fb61fa33a13554f9d5fb856fe61758086 # v1.14.3
 
   npm:
-    # Enable by setting repo secret NPM_TOKEN and repo variable NPM_PUBLISH=true.
+    # Enable by setting repo variable NPM_PUBLISH=true. Publishes via npm OIDC trusted
+    # publishing (no token): configure a trusted publisher on the npmjs package
+    # (@garag0l/turkmen-translit) for repo garag0l/turkmen-translit, workflow release.yml.
     if: ${{ vars.NPM_PUBLISH == 'true' }}
     needs: build
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
     defaults:
       run:
         working-directory: js
@@ -78,7 +83,7 @@ jobs:
         with:
           node-version: "22"
           registry-url: "https://registry.npmjs.org"
+      # OIDC trusted publishing needs npm >= 11.5.1; node 22 ships npm 10.x.
+      - run: npm install -g npm@12.2.3
       - run: node --test
-      - run: npm publish --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - run: npm publish --access public --provenance
