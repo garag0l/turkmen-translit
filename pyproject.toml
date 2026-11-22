@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "turkmen-translit"
-version = "0.1.1"
+dynamic = ["version"]
 description = "Transliterate Turkmen text between the legacy Cyrillic and the current Latin alphabet."
 readme = "README.md"
 requires-python = ">=3.9"
@@ -31,6 +31,9 @@ tr-tm = "turkmen_translit.cli:main"
 
 [project.optional-dependencies]
 dev = ["pytest", "ruff"]
+
+[tool.hatch.version]
+path = "src/turkmen_translit/__init__.py"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/turkmen_translit"]

@@ -4,6 +4,17 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/), and this project adheres to
 [Semantic Versioning](https://semver.org/).
 
+## [0.1.2] - 2026-11-21
+
+### Changed
+- Supply-chain: the npm package now publishes via npm **OIDC trusted
+  publishing** (no long-lived token) and carries a **provenance attestation**.
+- Build: the Python package version is now single-sourced from
+  `__init__.py` (hatchling dynamic version), so it can no longer drift from the
+  tag.
+
+No functional changes to the library or CLIs.
+
 ## [0.1.1] - 2026-11-21
 
 ### Added
