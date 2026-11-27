@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Türkmen Transliterator</title>
+<meta name="description" content="Convert Turkmen between the legacy Cyrillic and the current official Latin alphabet, in your browser. No install.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap">
+<style>
+  :root {
+    --bg: #f3f5f2; --surface: #ffffff; --fg: #15201b; --muted: #5d6b63;
+    --faint: #e4e9e4; --line: #d4dcd5; --accent: #1f8a5b; --accent-weak: #e6f3ec;
+    --accent-ink: #0f5f3c; --danger: #b4431f;
+    --font-display: "Space Grotesk", "Segoe UI", system-ui, sans-serif;
+    --font-body: "Inter", "Segoe UI", system-ui, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #10140f; --surface: #192017; --fg: #e7ede6; --muted: #97a699;
+      --faint: #222a20; --line: #2d3729; --accent: #3fb47c; --accent-weak: #16271d;
+      --accent-ink: #8fe0b4; --danger: #e98a63; color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #10140f; --surface: #192017; --fg: #e7ede6; --muted: #97a699;
+    --faint: #222a20; --line: #2d3729; --accent: #3fb47c; --accent-weak: #16271d;
+    --accent-ink: #8fe0b4; --danger: #e98a63; color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body { background: var(--bg); color: var(--fg); font-family: var(--font-body); line-height: 1.5; }
+  .wrap {
+    max-width: 44rem; margin: 0 auto;
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+    padding-block: 2.5rem 3.5rem;
+  }
+  header { margin-bottom: 1.75rem; }
+  .brandline { display: inline-flex; align-items: center; gap: .5rem; font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; color: var(--accent-ink); font-weight: 600; }
+  .dot { width: .5rem; height: .5rem; border-radius: 50%; background: var(--accent); }
+  h1 { font-family: var(--font-display); font-size: clamp(1.9rem, 6vw, 2.6rem); line-height: 1.05; letter-spacing: -.02em; margin: .5rem 0 .4rem; text-wrap: balance; }
+  .sub { color: var(--muted); font-size: 1rem; max-width: 34rem; margin: 0; }
+  .switch { display: flex; gap: .25rem; margin: 1.5rem 0 .75rem; background: var(--faint); border: 1px solid var(--line); border-radius: 11px; padding: .25rem; width: max-content; max-width: 100%; }
+  .switch button { appearance: none; border: 0; background: transparent; cursor: pointer; font-family: var(--font-body); font-size: .9rem; font-weight: 600; color: var(--muted); padding: .5rem .9rem; border-radius: 8px; white-space: nowrap; transition: background .15s, color .15s; }
+  .switch button[aria-pressed="true"] { background: var(--surface); color: var(--fg); box-shadow: 0 1px 2px rgba(0,0,0,.08); }
+  .switch button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .panel { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; }
+  .phead { display: flex; align-items: center; justify-content: space-between; gap: .75rem; padding: .7rem .95rem; border-bottom: 1px solid var(--line); background: var(--faint); }
+  .plabel { font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+  .badge { font-size: .68rem; font-weight: 600; letter-spacing: .04em; padding: .2rem .5rem; border-radius: 999px; background: var(--accent-weak); color: var(--accent-ink); }
+  textarea, .output { width: 100%; border: 0; background: transparent; color: var(--fg); font-family: var(--font-body); font-size: 1.15rem; line-height: 1.55; padding: 1rem .95rem; }
+  textarea { display: block; resize: vertical; min-height: 7.5rem; }
+  textarea:focus-visible { outline: none; }
+  .output { white-space: pre-wrap; word-break: break-word; min-height: 7.5rem; }
+  .output.empty { color: var(--muted); }
+  .swapwrap { display: flex; justify-content: center; margin: .55rem 0; }
+  .swap { appearance: none; cursor: pointer; display: inline-flex; align-items: center; gap: .4rem; font-family: var(--font-body); font-size: .82rem; font-weight: 600; color: var(--muted); background: var(--surface); border: 1px solid var(--line); border-radius: 999px; padding: .4rem .8rem; }
+  .swap:hover { color: var(--fg); border-color: var(--accent); }
+  .swap:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .pfoot { display: flex; align-items: center; justify-content: space-between; gap: .75rem; flex-wrap: wrap; padding: .6rem .95rem; border-top: 1px solid var(--line); }
+  .count { font-size: .78rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+  .copy { appearance: none; cursor: pointer; font-family: var(--font-body); font-weight: 600; font-size: .85rem; color: #fff; background: var(--accent); border: 0; border-radius: 9px; padding: .5rem .95rem; }
+  .copy:disabled { opacity: .5; cursor: default; }
+  .copy:focus-visible { outline: 2px solid var(--accent-ink); outline-offset: 2px; }
+  .examples { margin: 1.5rem 0 0; }
+  .examples .plabel { display: block; margin-bottom: .55rem; }
+  .chips { display: flex; flex-wrap: wrap; gap: .5rem; }
+  .chip { appearance: none; cursor: pointer; text-align: left; font-family: var(--font-body); font-size: .85rem; color: var(--fg); background: var(--surface); border: 1px solid var(--line); border-radius: 9px; padding: .45rem .7rem; max-width: 100%; }
+  .chip:hover { border-color: var(--accent); }
+  .chip:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .chip span { color: var(--muted); }
+  details.legend { margin-top: 1.75rem; border-top: 1px solid var(--line); padding-top: 1.25rem; }
+  summary { cursor: pointer; font-family: var(--font-display); font-weight: 600; font-size: 1.05rem; list-style: none; display: flex; align-items: center; gap: .5rem; }
+  summary::-webkit-details-marker { display: none; }
+  summary::before { content: "+"; color: var(--accent); font-size: 1.2rem; width: 1rem; }
+  details[open] summary::before { content: "\2212"; }
+  .traps { margin-top: 1rem; display: grid; grid-template-columns: 1fr; gap: .6rem; }
+  .trap { display: flex; gap: .75rem; align-items: baseline; padding: .65rem .8rem; background: var(--faint); border-radius: 10px; }
+  .trap b { font-family: var(--font-display); font-size: 1.05rem; color: var(--accent-ink); white-space: nowrap; }
+  .trap small { color: var(--muted); font-size: .85rem; }
+  footer { margin-top: 2.5rem; color: var(--muted); font-size: .82rem; }
+  footer a { color: var(--accent-ink); text-decoration: none; font-weight: 600; }
+  footer a:hover { text-decoration: underline; }
+  .warn { margin-top: 1rem; padding: .7rem .85rem; border-radius: 10px; background: var(--accent-weak); color: var(--accent-ink); font-size: .85rem; display: none; }
+  .toast { position: fixed; left: 50%; bottom: calc(1.25rem + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%) translateY(1rem); background: var(--fg); color: var(--bg); font-size: .85rem; font-weight: 600; padding: .55rem .9rem; border-radius: 999px; opacity: 0; pointer-events: none; transition: opacity .2s, transform .2s; z-index: 20; }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <span class="brandline"><span class="dot"></span>Türkmen dili · open tool</span>
+    <h1>Türkmen Transliterator</h1>
+    <p class="sub">Convert Turkmen between the legacy <strong>Cyrillic</strong> script and the current official <strong>Latin</strong> alphabet. Runs entirely in your browser — nothing is uploaded.</p>
+  </header>
+
+  <div class="switch" role="group" aria-label="Direction">
+    <button id="dir-latin" aria-pressed="true">Кирил → Latyn</button>
+    <button id="dir-cyr" aria-pressed="false">Latyn → Кирил</button>
+  </div>
+
+  <div class="panel">
+    <div class="phead">
+      <span class="plabel" id="inlabel">Cyrillic input</span>
+      <span class="badge" id="detect" hidden></span>
+    </div>
+    <textarea id="input" spellcheck="false" placeholder="Салам дүнйә — başla…"></textarea>
+    <div class="pfoot">
+      <span class="count"><span id="incount">0</span> characters</span>
+      <button class="chip" id="clear" type="button">Clear</button>
+    </div>
+  </div>
+
+  <div class="swapwrap">
+    <button class="swap" id="swap" type="button" title="Swap direction and move the result into the input">⇅ Swap &amp; reverse</button>
+  </div>
+
+  <div class="panel">
+    <div class="phead">
+      <span class="plabel" id="outlabel">Latin output</span>
+      <span class="badge" id="outbadge">authoritative</span>
+    </div>
+    <div class="output empty" id="output" aria-live="polite">Your converted text appears here.</div>
+    <div class="pfoot">
+      <span class="count"><span id="outcount">0</span> characters</span>
+      <button class="copy" id="copy" type="button" disabled>Copy result</button>
+    </div>
+  </div>
+
+  <div class="warn" id="warn"></div>
+
+  <div class="examples">
+    <span class="plabel">Try an example</span>
+    <div class="chips" id="chips"></div>
+  </div>
+
+  <details class="legend">
+    <summary>The four letters other tools get wrong</summary>
+    <div class="traps">
+      <div class="trap"><b>В → w</b><small>Turkmen /w/, never <i>v</i>.</small></div>
+      <div class="trap"><b>Ж → ž&nbsp;&nbsp;·&nbsp;&nbsp;Җ → j</b><small>Two different Cyrillic letters: /ʒ/ vs /dʒ/. Never collapsed into one.</small></div>
+      <div class="trap"><b>Й → ý</b><small>The /j/ glide, written y-with-acute.</small></div>
+      <div class="trap"><b>Ы → y&nbsp;&nbsp;·&nbsp;&nbsp;И → i</b><small>Turkmen Latin has no Turkish dotless <i>ı</i>.</small></div>
+    </div>
+  </details>
+
+  <footer>
+    Powered by <a href="https://github.com/garag0l/turkmen-translit" target="_blank" rel="noopener">turkmen-translit</a>,
+    an open-source library by Murat Bekgi (MIT). Latin → Cyrillic is best-effort: modern Latin merged
+    distinctions Cyrillic kept, so <code>ý</code> always returns to <strong>й</strong>.
+  </footer>
+</div>
+
+<div class="toast" id="toast">Copied</div>
+
+<script type="module">
+  const $ = (id) => document.getElementById(id);
+  const input = $("input"), output = $("output");
+  const warn = $("warn"), copyBtn = $("copy"), toast = $("toast");
+  let toLatin = true;
+  let lib = null;
+
+  const EXAMPLES = [
+    { cyr: "Салам дүнйә!", note: "a greeting" },
+    { cyr: "Җүнейт Йазмырат", note: "the tricky Җ and Й" },
+    { cyr: "Түркменистан", note: "country name" },
+    { cyr: "Информасион howpsuzlyk", note: "mixed script" },
+  ];
+
+  try {
+    lib = await import("https://cdn.jsdelivr.net/npm/@garag0l/turkmen-translit@0.1.2/+esm");
+  } catch (e) {
+    warn.textContent = "Couldn't load the transliteration library (you may be offline). The page needs a network connection the first time.";
+    warn.style.display = "block";
+  }
+
+  function setDirection(latin) {
+    toLatin = latin;
+    $("dir-latin").setAttribute("aria-pressed", String(latin));
+    $("dir-cyr").setAttribute("aria-pressed", String(!latin));
+    $("inlabel").textContent = latin ? "Cyrillic input" : "Latin input";
+    $("outlabel").textContent = latin ? "Latin output" : "Cyrillic output";
+    $("outbadge").textContent = latin ? "authoritative" : "best-effort";
+    input.placeholder = latin ? "Салам дүнйә — başla…" : "Salam dünýä — başla…";
+    render();
+  }
+
+  function render() {
+    const text = input.value;
+    $("incount").textContent = [...text].length;
+    const detect = $("detect");
+    if (lib && text.trim()) {
+      detect.hidden = false;
+      detect.textContent = "detected: " + lib.detectScript(text);
+    } else {
+      detect.hidden = true;
+    }
+    if (!text) {
+      output.textContent = "Your converted text appears here.";
+      output.classList.add("empty");
+      $("outcount").textContent = "0";
+      copyBtn.disabled = true;
+      return;
+    }
+    if (!lib) return;
+    const result = toLatin ? lib.cyrillicToLatin(text) : lib.latinToCyrillic(text);
+    output.textContent = result;
+    output.classList.remove("empty");
+    $("outcount").textContent = [...result].length;
+    copyBtn.disabled = !result;
+  }
+
+  function showToast(msg) {
+    toast.textContent = msg;
+    toast.classList.add("show");
+    clearTimeout(showToast._t);
+    showToast._t = setTimeout(() => toast.classList.remove("show"), 1400);
+  }
+
+  $("dir-latin").addEventListener("click", () => setDirection(true));
+  $("dir-cyr").addEventListener("click", () => setDirection(false));
+  input.addEventListener("input", render);
+  $("clear").addEventListener("click", () => { input.value = ""; render(); input.focus(); });
+  $("swap").addEventListener("click", () => {
+    const current = output.classList.contains("empty") ? "" : output.textContent;
+    setDirection(!toLatin);
+    input.value = current;
+    render();
+    input.focus();
+  });
+  copyBtn.addEventListener("click", async () => {
+    try {
+      await navigator.clipboard.writeText(output.textContent);
+      showToast("Copied");
+    } catch (e) {
+      const r = document.createRange();
+      r.selectNodeContents(output);
+      const sel = window.getSelection();
+      sel.removeAllRanges(); sel.addRange(r);
+      showToast("Select ⌘/Ctrl+C to copy");
+    }
+  });
+
+  const chips = $("chips");
+  for (const ex of EXAMPLES) {
+    const b = document.createElement("button");
+    b.className = "chip"; b.type = "button";
+    b.innerHTML = ex.cyr + " <span>· " + ex.note + "</span>";
+    b.addEventListener("click", () => { setDirection(true); input.value = ex.cyr; render(); input.scrollIntoView({ behavior: "smooth", block: "center" }); });
+    chips.appendChild(b);
+  }
+
+  setDirection(true);
+</script>
+</body>
+</html>
