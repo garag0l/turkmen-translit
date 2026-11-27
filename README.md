@@ -6,6 +6,9 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 ![Python 3.9+](https://img.shields.io/badge/python-3.9%2B-blue)
 ![Zero dependencies](https://img.shields.io/badge/dependencies-0-brightgreen)
+[![Web UI](https://img.shields.io/badge/Web_UI-try_in_browser-1f8a5b)](https://garag0l.github.io/turkmen-translit/)
+
+> 🌐 **No install needed** — [use it in your browser](https://garag0l.github.io/turkmen-translit/): paste text, pick a direction, copy the result.
 
 Turkmenistan's official script is the Latin alphabet (30 letters). A lot of
 older text — books, documents, websites — is still in the 1940–1993 Cyrillic
